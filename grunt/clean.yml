@@ -1,0 +1,2 @@
+dist: "dist"
+buildbot: "dist/master.cfg.sample"
