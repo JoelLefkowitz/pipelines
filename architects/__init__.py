@@ -1,8 +1,7 @@
 from .builders import builders
-from .changes import changes
+from .changes import git_poll
 from .db import postgres, sqlite
 from .protocols import pb
 from .schedulers import schedulers
 from .secrets import secrets
-from .web import buildbotURL, www
-from .workers import pool
+from .web import buildbot_url, www

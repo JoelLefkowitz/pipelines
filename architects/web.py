@@ -1,4 +1,4 @@
-def buildbotURL(host, port):
+def buildbot_url(host, port):
     return f"http://{host}:{port}/"
 
 
