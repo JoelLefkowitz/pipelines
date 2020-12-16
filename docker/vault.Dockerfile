@@ -8,6 +8,6 @@ RUN pip install setuptools
 
 COPY setup.py setup.py
 RUN pip install .[vault]
-
 COPY vault .
+
 ENTRYPOINT ["python", "vault"]

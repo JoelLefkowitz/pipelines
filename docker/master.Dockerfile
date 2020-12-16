@@ -8,7 +8,6 @@ RUN buildbot create-master
 RUN rm master.cfg.sample
 
 COPY architects architects
-COPY registration registration
-
 COPY master .
+
 ENTRYPOINT ["python", "master"]

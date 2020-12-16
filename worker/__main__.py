@@ -1,31 +1,29 @@
 #!/usr/bin/env python
+
+import json
 from secrets import token_bytes
 
-from safe_environ import from_env
 from simple_pipes import pipe_call
 
-from registration import get_unique_name, list_worker_entries, post_worker_data
+import hvac
+from utils import get_unique_name
 
 if __name__ == "__main__":
-    vault_host = "0.0.0.0"
-    buildmaster = "master"
+    with open("/tokens/worker.json") as stream:
+        client = hvac.Client("https://vault:8200")
+        client.token = json.loads(stream.read())["token"]
 
-    vault_port = 8200
-    buildmaster_port = 9989
-
-    token = from_env("VAULT_TOKEN")
-    registered_workers = list_worker_entries(vault_host, vault_port, token)
-
-    name = get_unique_name(registered_workers.keys())
+    name = get_unique_name(client.list("workers").keys())
     password = str(token_bytes(16))
 
-    post_worker_data(vault_host, vault_port, name, password, token)
+    client.write(f"workers/{name}", password)
+
     pipe_call(
         [
             "buildbot-worker",
             "create-worker",
             ".",
-            f"{buildmaster}:{buildmaster_port}",
+            "master:9989",
             name,
             password,
         ]

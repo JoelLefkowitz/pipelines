@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
-from policy import VaultPolicy
 from client import VaultClient
+from policy import VaultPolicy
 
 if __name__ == "__main__":
     client = VaultClient(unseal=True)
@@ -9,9 +9,9 @@ if __name__ == "__main__":
 
     client.create_policies(
         [
-            VaultPolicy("master", read=["workers", "postgres"]),
-            VaultPolicy("worker", write=["workers"]),
-            VaultPolicy("postgres", write=["postgres"]),
+            VaultPolicy("master", {"workers": ["list", "read"], "postgres": ["read"]}),
+            VaultPolicy("worker", {"workers": ["list", "write"]}),
+            VaultPolicy("postgres", {"postgres": ["write"]}),
         ]
     )
 

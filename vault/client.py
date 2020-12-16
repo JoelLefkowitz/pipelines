@@ -1,4 +1,4 @@
-
+import json
 
 from hvac import Client
 
@@ -26,10 +26,11 @@ class VaultClient(Client):
         for policy in policies:
             self.sys.create_or_update_policy(
                 name=policy.name,
-                policy=policy.policy_string,
+                policy=policy.hcl,
             )
 
     def write_tokens(self, names):
         for role in roles:
             with open(f"/tokens/{name}.json", "w") as stream:
-                stream.write(self.create_token(policies=[name], lease="1h"))
+                token = self.create_token(policies=[name], lease="1h")
+                stream.write(json.dumps({"token": token}))
