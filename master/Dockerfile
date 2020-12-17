@@ -2,12 +2,10 @@ FROM python:3.8-buster
 WORKDIR /pipelines
 
 COPY setup.py setup.py
-RUN pip install .
+RUN pip install .[master]
 
 RUN buildbot create-master
 RUN rm master.cfg.sample
 
-COPY architects architects
-COPY master .
-
+COPY master master
 ENTRYPOINT ["python", "master"]

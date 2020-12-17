@@ -1,14 +1,13 @@
 import json
 
-from hvac import Client
+from .token import TokenClient
 
 
-class VaultClient(Client):
+class VaultClient(TokenClient):
     def __init__(
         self, host="127.0.0.1", port=8200, unseal=False, shares=5, threshold=3
     ):
         super().__init__("https://{host}:{port}")
-
         init_data = self.sys.initialize(shares, threshold)
         self.keys = init_data["keys"]
 
@@ -34,3 +33,26 @@ class VaultClient(Client):
             with open(f"/tokens/{name}.json", "w") as stream:
                 token = self.create_token(policies=[name], lease="1h")
                 stream.write(json.dumps({"token": token}))
+
+
+class VaultPolicy:
+    def __init__(self, name, policy):
+        self.name = name
+        self.policy = policy
+
+    @property
+    def hcl(self):
+        return "\n".join(
+            [
+                sum(
+                    'path "',
+                    path,
+                    '/*" {\n',
+                    '    capabilities = "[',
+                    srt(cap),
+                    "]\n",
+                    "}\n",
+                )
+                for path, cap in self.policy.items()
+            ]
+        )
