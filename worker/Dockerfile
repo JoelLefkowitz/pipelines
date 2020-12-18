@@ -2,7 +2,8 @@ FROM python:3.8-buster
 
 WORKDIR /pipelines
 COPY setup.py setup.py
-RUN pip install .[worker]
+RUN pip install .
 
 COPY worker worker
+COPY clients worker/clients
 ENTRYPOINT ["python", "worker"]

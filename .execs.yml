@@ -1,0 +1,61 @@
+autoflake:
+  - autoflake
+  - .
+  - '-ri'
+  - '--exclude'
+  - conftest.py
+  - '--remove-all-unused-imports'
+  - '--remove-unused-variables'
+  - '--ignore-init-module-imports'
+bandit:
+  - bandit
+  - .
+  - '-l'
+  - '-i'
+  - '-r'
+  - '--quiet'
+  - '-c'
+  - bandit.yml
+black:
+  - black
+  - .
+buildApp:
+  - npx
+  - tsc
+cspell:
+  - cspell
+  - ./**/*
+  - '-c'
+  - cspell.json
+csscomb:
+  - csscomb
+  - .
+eslint:
+  - npx
+  - eslint
+  - './**/*.{ts,js,html,css}'
+  - '-c'
+  - eslint.json
+isort:
+  - isort
+  - ./**/*
+mypy:
+  - mypy
+  - .
+  - '--config-file'
+  - mypy.ini
+presort:
+  - isort
+  - ./**/*
+  - '--force-single-line-imports'
+prettier:
+  - prettier
+  - './**/*.{js,ts,html,css}'
+  - '--write'
+pylint:
+  - pylint
+  - ./**/*.py
+  - '-r'
+  - 'n'
+  - '--rcfile'
+  - pylintrc.conf

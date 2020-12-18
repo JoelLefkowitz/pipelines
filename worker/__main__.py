@@ -4,11 +4,10 @@ from secrets import token_bytes
 
 from simple_pipes import pipe_call
 
-from src.token import TokenClient
-from utils import get_unique_name
+from clients import TokenClient, get_unique_name
 
 if __name__ == "__main__":
-    token = TokenClient.parse_token("/tokens/worker.json")
+    token = TokenClient.parse_token("/tokens/worker/token.json")
     client = TokenClient("https://vault:8200", token)
 
     worker_names = client.list("workers").keys()

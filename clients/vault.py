@@ -1,18 +1,19 @@
 import json
+from pathlib import Path
 
-from .token import TokenClient
+from hvac import Client
 
 
-class VaultClient(TokenClient):
+class VaultClient(Client):
     def __init__(
         self, host="127.0.0.1", port=8200, unseal=False, shares=5, threshold=3
     ):
-        super().__init__("https://{host}:{port}")
+        super().__init__(f"http://{host}:{port}")
         init_data = self.sys.initialize(shares, threshold)
-        self.keys = init_data["keys"]
+        self.token = init_data["root_token"]
 
         if unseal:
-            self.sys.unseal_multi(self.keys)
+            self.sys.submit_unseal_keys(init_data["keys"])
 
     def enable_kv_engines(self, paths):
         for path in paths:
@@ -29,8 +30,9 @@ class VaultClient(TokenClient):
             )
 
     def write_tokens(self, names):
-        for role in roles:
-            with open(f"/tokens/{name}.json", "w") as stream:
+        for name in names:
+            Path(f"/tokens/{name}/").mkdir(parents=True, exist_ok=True)
+            with open(f"/tokens/{name}/token.json", "w") as stream:
                 token = self.create_token(policies=[name], lease="1h")
                 stream.write(json.dumps({"token": token}))
 
@@ -44,14 +46,14 @@ class VaultPolicy:
     def hcl(self):
         return "\n".join(
             [
-                sum(
-                    'path "',
-                    path,
-                    '/*" {\n',
-                    '    capabilities = "[',
-                    srt(cap),
-                    "]\n",
-                    "}\n",
+                "\n".join(
+                    [
+                        "".join(['path "', path, '/*" {']),
+                        "".join(
+                            [" " * 4, "capabilities = ", str(cap).replace("'", '"')]
+                        ),
+                        "}",
+                    ]
                 )
                 for path, cap in self.policy.items()
             ]

@@ -6,7 +6,7 @@ services:
     ports:
       - 8010:8010
     volumes:
-      - /tokens/master.json
+      - ./tokens/master:/tokens/master
     depends_on:
       - postgres
       - vault
@@ -14,21 +14,21 @@ services:
   worker:
     image: joellefkowitz/pipeline_worker:0.1.0_dev
     volumes:
-      - /tokens/worker.json
+      - ./tokens/worker:/tokens/worker
     depends_on:
       - vault
 
   vault:
     image: joellefkowitz/pipeline_vault:0.1.0_dev
     volumes:
-      - /tokens/worker.json
-      - /tokens/master.json
-      - /tokens/postgres.json
+      - ./tokens/worker:/tokens/worker
+      - ./tokens/master:/tokens/master
+      - ./tokens/postgres:/tokens/postgres
 
   postgres:
     image: joellefkowitz/pipeline_postgres:0.1.0_dev
     user: postgres
     volumes:
-      - /tokens/postgres.json
+      - ./tokens/postgres:/tokens/postgres
     depends_on:
       - vault

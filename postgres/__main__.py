@@ -4,10 +4,10 @@ from secrets import token_bytes
 
 from simple_pipes import pipe_call
 
-from pipelines import TokenClient
+from clients import TokenClient
 
 if __name__ == "__main__":
-    token = TokenClient.parse_token("/tokens/postgres.json")
+    token = TokenClient.parse_token("/tokens/postgres/token.json")
     client = TokenClient(token)
     password = str(token_bytes(16))
     client.write("postgres", password)

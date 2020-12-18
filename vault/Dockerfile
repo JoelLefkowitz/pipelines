@@ -1,14 +1,16 @@
 FROM vault:1.6.0
 WORKDIR /pipelines
 
-RUN apk add --update --no-cache python3
+RUN apk add --no-cache --virtual .build-deps g++ python3-dev libffi-dev openssl-dev && \
+    apk add --no-cache --update python3 && \
+    pip3 install --upgrade pip setuptools
 
 RUN ln -sf python3 /usr/bin/python
-RUN python -m ensurepip
 RUN pip3 install --no-cache --upgrade pip setuptools
 
 COPY setup.py setup.py
-RUN pip install .[vault]
+RUN pip install .
 
 COPY vault vault
+COPY clients vault/clients
 ENTRYPOINT ["python", "vault"]
