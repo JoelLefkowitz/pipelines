@@ -1,15 +1,12 @@
 #!/usr/bin/env python
 
-import subprocess
+
+from simple_pipes import pipe_call
 
 from clients import VaultClient, VaultPolicy
 
 if __name__ == "__main__":
-    subprocess.Popen(
-        ["vault", "server", f"-config=vault/config.hcl"],
-        stdout=subprocess.PIPE,
-        stderr=subprocess.STDOUT,
-    )
+    pipe_call(["vault", "server", f"-config=vault/config.hcl"], break_str="blah")
 
     client = VaultClient(unseal=True)
     client.enable_kv_engines(["workers", "postgres"])

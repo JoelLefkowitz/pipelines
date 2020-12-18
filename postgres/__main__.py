@@ -7,8 +7,7 @@ from simple_pipes import pipe_call
 from clients import TokenClient
 
 if __name__ == "__main__":
-    token = TokenClient.parse_token("/tokens/postgres/token.json")
-    client = TokenClient(token)
+    client = TokenClient.try_token_path("/tokens/postgres/token.json")
     password = str(token_bytes(16))
     client.write("postgres", password)
     os.environ["POSTGRES_PASSWORD"] = password
