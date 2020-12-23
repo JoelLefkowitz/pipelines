@@ -12,5 +12,4 @@ COPY setup.py setup.py
 RUN pip install .
 
 COPY vault vault
-COPY clients vault/clients
 ENTRYPOINT ["python", "vault"]

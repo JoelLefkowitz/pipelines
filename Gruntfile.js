@@ -1,29 +1,37 @@
-const fs = require("fs");
-const YAML = require("yaml");
+fs = require('fs')
+YAML = require('yaml')
 
-function joinAttrs(x) {
-  return Object.fromEntries(
-    Object.entries(x).map((i) => [i[0], i[1].join(" ")])
-  );
+function joinListEntries(x) {
+    return [x[0], x[1].join(' ')]
+}
+
+function joinObjAttrs(x) {
+    return Object.fromEntries(Object.entries(x).map(joinListEntries))
+}
+
+function parseYaml(x) {
+    return YAML.parse(fs.readFileSync(x, 'utf8'))
 }
 
 module.exports = function (grunt) {
-  grunt.initConfig({
-    exec: joinAttrs(YAML.parse(fs.readFileSync(".execs.yml", "utf8"))),
-  });
-  grunt.loadNpmTasks("grunt-exec");
-  grunt.registerTask("lint", [
-    "exec:pylint",
-    "exec:bandit",
-    "exec:cspell",
-    "exec:mypy",
-  ]);
-  grunt.registerTask("format", [
-    "exec:presort",
-    "exec:black",
-    "exec:autoflake",
-    "exec:sort",
-  ]);
-  grunt.registerTask("unitTests", ["exec:pytest"]);
-  grunt.registerTask("preCommit", ["lint", "format", "unitTests"]);
-};
+    execs = joinObjAttrs(parseYaml('routines.yml'))
+
+    grunt.initConfig({ exec: execs })
+    grunt.loadNpmTasks('grunt-exec')
+
+    for (let name of Object.keys(execs)) {
+        grunt.registerTask(name, 'exec:' + name)
+    }
+
+    grunt.registerTask('lint', ['eslint', 'pylint', 'bandit', 'cspell', 'mypy'])
+    grunt.registerTask('format', [
+        'presort',
+        'black',
+        'autoflake',
+        'sort',
+        'prettier',
+        'csscomb',
+    ])
+    grunt.registerTask('unitTests', ['pytest', 'mocha'])
+    grunt.registerTask('prebuild', ['lint', 'format', 'unitTests'])
+}

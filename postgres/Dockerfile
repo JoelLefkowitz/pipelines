@@ -12,5 +12,4 @@ COPY setup.py setup.py
 RUN pip install .
 
 COPY postgres postgres
-COPY clients postgres/clients
 ENTRYPOINT ["python", "postgres"]

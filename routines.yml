@@ -1,3 +1,14 @@
+# Builders
+buildNodeWorker:
+  - npx
+  - tsc
+  - --build
+  - ./node-worker/tsconfig.json
+buildDocker:
+  - sh
+  - scripts/docker-build.sh
+
+# Linters
 autoflake:
   - autoflake
   - .
@@ -16,34 +27,41 @@ bandit:
   - '--quiet'
   - '-c'
   - bandit.yml
-black:
-  - black
-  - .
-buildApp:
-  - npx
-  - tsc
 cspell:
   - cspell
   - ./**/*
   - '-c'
   - cspell.json
-csscomb:
-  - csscomb
-  - .
 eslint:
   - npx
   - eslint
-  - './**/*.{ts,js,html,css}'
+  - './**/*.{js,ts,html,css}'
   - '-c'
-  - eslint.json
-isort:
-  - isort
-  - ./**/*
+  - eslintrc.yml
+pylint:
+  - pylint
+  - ./**/*.py
+  - '-r'
+  - 'n'
+  - '--rcfile'
+  - pylintrc.conf
 mypy:
   - mypy
   - .
   - '--config-file'
   - mypy.ini
+
+
+# Formatters
+black:
+  - black
+  - .
+csscomb:
+  - csscomb
+  - .
+isort:
+  - isort
+  - ./**/*
 presort:
   - isort
   - ./**/*
@@ -52,10 +70,3 @@ prettier:
   - prettier
   - './**/*.{js,ts,html,css}'
   - '--write'
-pylint:
-  - pylint
-  - ./**/*.py
-  - '-r'
-  - 'n'
-  - '--rcfile'
-  - pylintrc.conf

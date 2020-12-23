@@ -5,5 +5,4 @@ COPY setup.py setup.py
 RUN pip install .
 
 COPY worker worker
-COPY clients worker/clients
 ENTRYPOINT ["python", "worker"]

@@ -11,10 +11,25 @@ services:
       - postgres
       - vault
 
-  worker:
-    image: joellefkowitz/pipeline_worker:0.1.0_dev
+  python-worker:
+    image: joellefkowitz/pipeline_python_worker:0.1.0_dev
     volumes:
       - ./tokens/worker:/tokens/worker
+    depends_on:
+      - vault
+  
+  node-worker:
+    image: joellefkowitz/pipeline_node_worker:0.1.0_dev
+    volumes:
+      - ./tokens/worker:/tokens/worker
+    depends_on:
+      - vault
+
+  postgres:
+    image: joellefkowitz/pipeline_postgres:0.1.0_dev
+    user: postgres
+    volumes:
+      - ./tokens/postgres:/tokens/postgres
     depends_on:
       - vault
 
@@ -24,11 +39,3 @@ services:
       - ./tokens/worker:/tokens/worker
       - ./tokens/master:/tokens/master
       - ./tokens/postgres:/tokens/postgres
-
-  postgres:
-    image: joellefkowitz/pipeline_postgres:0.1.0_dev
-    user: postgres
-    volumes:
-      - ./tokens/postgres:/tokens/postgres
-    depends_on:
-      - vault
