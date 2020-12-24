@@ -2,7 +2,7 @@ version: "3.3"
 
 services:
   master:
-    image: joellefkowitz/pipeline_master:0.1.0_dev
+    image: joellefkowitz/pipelines_master:0.1.0_dev
     ports:
       - 8010:8010
     volumes:
@@ -12,29 +12,30 @@ services:
       - vault
 
   python-worker:
-    image: joellefkowitz/pipeline_python_worker:0.1.0_dev
+    image: joellefkowitz/pipelines_python_worker:0.1.0_dev
     volumes:
       - ./tokens/worker:/tokens/worker
     depends_on:
       - vault
   
   node-worker:
-    image: joellefkowitz/pipeline_node_worker:0.1.0_dev
+    image: joellefkowitz/pipelines_node_worker:0.1.0_dev
     volumes:
       - ./tokens/worker:/tokens/worker
     depends_on:
       - vault
 
   postgres:
-    image: joellefkowitz/pipeline_postgres:0.1.0_dev
+    image: joellefkowitz/pipelines_postgres:0.1.0_dev
     user: postgres
     volumes:
       - ./tokens/postgres:/tokens/postgres
+      - /var/lib/postgresql/data
     depends_on:
       - vault
 
   vault:
-    image: joellefkowitz/pipeline_vault:0.1.0_dev
+    image: joellefkowitz/pipelines_vault:0.1.0_dev
     volumes:
       - ./tokens/worker:/tokens/worker
       - ./tokens/master:/tokens/master

@@ -5,4 +5,4 @@ COPY setup.py setup.py
 RUN pip install .
 
 COPY worker worker
-ENTRYPOINT ["python", "worker"]
+ENTRYPOINT ["python", "/pipelines/worker"]

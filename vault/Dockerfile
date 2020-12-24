@@ -12,4 +12,4 @@ COPY setup.py setup.py
 RUN pip install .
 
 COPY vault vault
-ENTRYPOINT ["python", "vault"]
+ENTRYPOINT ["python", "/pipelines/vault"]

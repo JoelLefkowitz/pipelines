@@ -2,14 +2,13 @@
 
 from secrets import token_bytes
 
+from buildbot_abstract import TokenClient, get_unique_name
 from simple_pipes import pipe_call
 
-from clients import TokenClient, get_unique_name
-
 if __name__ == "__main__":
-    client = TokenClient.try_token_path("/tokens/postgres/token.json")
-    worker_names = client.list("workers").keys()
-    name = get_unique_name(worker_names)
+    client = TokenClient.try_token_path("/tokens/worker/token.json")
+    workers = client.list("workers")
+    name = get_unique_name(workers.keys() if workers else [])
     password = str(token_bytes(16))
     client.write(f"workers/{name}", password)
 

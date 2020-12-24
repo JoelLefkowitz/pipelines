@@ -1,7 +1,7 @@
-FROM postgres:13
+FROM postgres:13.1
 WORKDIR /pipelines
 
-RUN apt update 
+RUN apt update
 RUN apt install -y python3
 RUN apt install -y python3-pip
 
@@ -12,4 +12,4 @@ COPY setup.py setup.py
 RUN pip install .
 
 COPY postgres postgres
-ENTRYPOINT ["python", "postgres"]
+ENTRYPOINT ["python", "/pipelines/postgres"]

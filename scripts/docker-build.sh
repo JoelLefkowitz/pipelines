@@ -8,16 +8,21 @@ trim() {
     echo ${1:0:${#1}-$2}
 }
 
-version="${1:-0.1.0_dev}"
-
 for dir in */; do
-    dockerfile=${dir}Dockerfile
+    for dockerfile in ${dir}*Dockerfile; do
+        if [ -f "$dockerfile" ]; then 
+                
+            root="joellefkowitz/pipelines_"
+            service=$(trim ${dir//-/_} 1)
+            
+            path=$(trim ${dockerfile//./_} 10)
+            prefix=${path##*/}
+            
+            version="${1:-0.1.0_dev}"
 
-    if test -f $dockerfile; then
-        service=$(trim ${dir//-/_} 1)
-    
-        docker build . \
-            -f $dockerfile \
-            -t joellefkowitz/pipelines_$service:$version
-    fi
+            docker build . \
+                -f $dockerfile  \
+                -t $root$prefix$service:$version
+        fi
+    done
 done

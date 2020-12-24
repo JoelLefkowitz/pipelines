@@ -1,5 +1,6 @@
 {
     "parser": "esprima",
+    "ignorePatterns": ["venv/**"],
     "rules": {
         "semi": "error"
     }
