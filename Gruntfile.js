@@ -6,7 +6,9 @@ function joinListEntries(x) {
 }
 
 function joinObjAttrs(x) {
-    return Object.fromEntries(Object.entries(x).map(joinListEntries));
+    return Object.fromEntries(
+        Object.entries(x).map(joinListEntries)
+    );
 }
 
 function parseYaml(x) {
@@ -27,15 +29,23 @@ module.exports = function (grunt) {
             : grunt.registerTask(name, "exec:" + name);
     }
 
-    grunt.registerTask("lint", ["cspell", "pylint", "bandit", "eslint"]);
+    grunt.registerTask("lint", ["cspell", "pylint", "bandit"]);
+
     grunt.registerTask("format", [
         "presort",
         "black",
         "autoflake",
         "isort",
         "prettier",
-        "csscomb",
     ]);
+
     grunt.registerTask("unitTests", ["pytest"]);
-    grunt.registerTask("prebuild", ["lint", "format", "unitTests"]);
+
+    grunt.registerTask("prebuild", [
+        "format",
+        "lint",
+        "unitTests",
+    ]);
+
+    grunt.registerTask("dev", ["buildDocker", "runDev"]);
 };

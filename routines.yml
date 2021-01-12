@@ -3,6 +3,15 @@ buildDocker:
     - sh
     - scripts/docker-build.sh
 
+# Runners
+runDev:
+    - docker-compose
+    - -f
+    - compose/dev.docker-compose.yml
+    - up
+    - --force-recreate
+    - --remove-orphans
+
 # Linters
 bandit:
     - bandit

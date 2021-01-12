@@ -17,7 +17,7 @@ services:
       - ./tokens/worker:/tokens/worker
     depends_on:
       - vault
-  
+
   node-worker:
     image: joellefkowitz/pipelines_node_worker:0.1.0_dev
     volumes:

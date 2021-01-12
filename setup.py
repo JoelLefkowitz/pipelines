@@ -7,12 +7,13 @@ if __name__ == "__main__":
             "hvac",
             "names",
             "retry",
+            "requests",
             "simple_pipes",
-            "buildbot_abstract==0.3.6",
-            "vault_wrapper==0.3.0",
+            "buildbot_abstract>=0.3.12",
+            "vault_wrapper>=0.3.4",
         ],
         extras_require={
-            "dev": ["black", "autoflake", "isort", "mypy"],
+            "dev": ["black", "autoflake", "isort", "mypy", "wheel"],
             "docs": [
                 "sphinx",
                 "pyimport",

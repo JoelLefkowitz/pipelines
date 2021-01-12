@@ -10,14 +10,14 @@ trim() {
 
 for dir in */; do
     for dockerfile in ${dir}*Dockerfile; do
-        if [ -f "$dockerfile" ]; then 
-                
+        if [ -f "$dockerfile" ]; then
+
             root="joellefkowitz/pipelines_"
             service=$(trim ${dir//-/_} 1)
-            
+
             path=$(trim ${dockerfile//./_} 10)
             prefix=${path##*/}
-            
+
             version="${1:-0.1.0_dev}"
 
             docker build . \

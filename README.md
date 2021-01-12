@@ -1,5 +1,7 @@
 # pipelines
 
+Integrated buildbot clients capable of distributing worker credentials
+
 ## Packages
 
 ### Clients
