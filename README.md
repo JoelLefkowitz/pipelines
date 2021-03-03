@@ -1,6 +1,6 @@
 # Pipelines
 
-Integrated buildbot clients capable of distributing worker credentials
+Integrated Buildbot clients capable of distributing worker credentials.
 
 ## Status
 
