@@ -2,24 +2,33 @@ from setuptools import setup
 
 if __name__ == "__main__":
     setup(
+        entry_points={
+            "console_scripts": ["quickdocs = quickdocs.__main__:main"]
+        },
         install_requires=[
-            "buildbot[bundle]",
-            "hvac",
-            "names",
-            "retry",
-            "requests",
+            "dataclasses",
+            "pyimport",
+            "pypandoc",
+            "ruamel.yaml",
             "simple_pipes",
-            "buildbot_abstract>=0.3.12",
-            "vault_wrapper>=0.3.4",
+            "sphinx-autodoc-annotation",
+            "sphinx",
+            "sphinxcontrib.apidoc",
+            "sphinxcontrib.pandoc_markdown",
+            "walkmate",
+            "yummy_sphinx_theme",
         ],
         extras_require={
             "tests": [
+                "coverage",
+                "codacy-coverage",
                 "pytest-bdd",
                 "pytest-cov",
                 "pytest-html",
                 "pytest-sugar",
                 "pytest-watch",
                 "pytest",
+                "tox-travis",
                 "tox",
             ],
             "tools": [

@@ -1,0 +1,44 @@
+output_dir: .
+
+clear_top_level: true
+logical_grouping: true
+
+collections:
+  - common
+
+loader_paths:
+  - docs
+
+render_context:
+  project:
+    project_name: pipelines
+    version: 0.1.0
+
+    verbose_name: Pipelines
+    description: Integrated Buildbot clients capable of distributing worker credentials.
+
+    repository: https://github.com/JoelLefkowitz/pipelines
+    codacy_id: e411759392c4416bbd30e59a4fd50f39
+
+    inserts:
+      - usage.md
+
+  author:
+    author: Joel Lefkowitz
+    author_email: joellefkowitz@hotmail.com
+    author_github_handle: joellefkowitz
+
+  portfolio:
+    is_portfolio: true
+    status_level: 2
+
+    languages:
+      - Python
+
+    frameworks:
+      - Buildbot
+      - Postgres
+      - Vault
+
+    paradigms:
+      - Containerised microservices
