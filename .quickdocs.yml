@@ -2,5 +2,5 @@ project: pipelines
 version: 0.1.0
 author: Joel Lefkowitz
 verbose_name: Pipelines
-html_title: Pipelines
-github_url: JoelLefkowitz/pipelines
+html_title: Pipelines 
+github_url: https://github.com/JoelLefkowitz/pipelines
